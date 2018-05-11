@@ -1,6 +1,21 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Image, Platform } from "react-native";
 
+const compact = function(array) {
+  var index = -1,
+    length = array == null ? 0 : array.length,
+    resIndex = 0,
+    result = [];
+
+  while (++index < length) {
+    var value = array[index];
+    if (value) {
+      result[resIndex++] = value;
+    }
+  }
+  return result;
+};
+
 export default class Card extends Component {
   constructor(props) {
     super(props);
@@ -10,7 +25,7 @@ export default class Card extends Component {
   }
 
   renderChildren() {
-    var returnChildren = _.compact(React.Children).map(
+    var returnChildren = compact(React.Children).map(
       this.props.children,
       (child, index) => {
         if (index == 0) {
