@@ -10,7 +10,7 @@ export default class Card extends Component {
   }
 
   renderChildren() {
-    var returnChildren = React.Children.map(
+    var returnChildren = _.compact(React.Children).map(
       this.props.children,
       (child, index) => {
         if (index == 0) {
