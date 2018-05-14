@@ -1,21 +1,6 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Image, Platform } from "react-native";
 
-const compact = function(array) {
-  var index = -1,
-    length = array == null ? 0 : array.length,
-    resIndex = 0,
-    result = [];
-
-  while (++index < length) {
-    var value = array[index];
-    if (value) {
-      result[resIndex++] = value;
-    }
-  }
-  return result;
-};
-
 export default class Card extends Component {
   constructor(props) {
     super(props);
@@ -25,10 +10,10 @@ export default class Card extends Component {
   }
 
   renderChildren() {
-    var returnChildren = compact(React.Children.toArray()).map(
+    var returnChildren = React.Children.map(
       this.props.children,
       (child, index) => {
-        if (index == 0) {
+        if (index == 0 && child) {
           switch (child.type.name) {
             // If cardTitle is first component in Card, add 24 padding at top
             case "CardTitle":
@@ -46,7 +31,7 @@ export default class Card extends Component {
               });
           }
         }
-        return child;
+        return child || View;
       }
     );
 
