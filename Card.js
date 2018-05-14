@@ -25,7 +25,7 @@ export default class Card extends Component {
   }
 
   renderChildren() {
-    var returnChildren = compact(React.Children).map(
+    var returnChildren = compact(React.Children.toArray()).map(
       this.props.children,
       (child, index) => {
         if (index == 0) {
@@ -61,7 +61,7 @@ export default class Card extends Component {
         .includes("CardImageCardTitle")
     ) {
       returnChildren = React.Children.map(returnChildren, child => {
-        if (child.type.name === "v") {
+        if (child && child.type.name === "v") {
           return React.cloneElement(child, {
             style: { ...child.props.style, marginBottom: 0 }
           });
@@ -80,7 +80,7 @@ export default class Card extends Component {
         .includes("CardImageCardAction")
     ) {
       returnChildren = React.Children.map(returnChildren, child => {
-        if (child.type.name === "CardImage") {
+        if (child && child.type.name === "CardImage") {
           return React.cloneElement(child, {
             style: { ...child.props.style, marginBottom: 0 }
           });
@@ -93,26 +93,26 @@ export default class Card extends Component {
       this.props.avatarSource !== undefined &&
       (returnChildren
         .map(child => {
-          return child.type.name;
+          return child ? child.type.name : "";
         })
         .includes("CardTitle") ||
         returnChildren
           .map(child => {
-            return child.type.name;
+            return child ? child.type.name : "";
           })
           .includes("CardContent"))
     ) {
       let title_index = returnChildren
         .map(child => {
-          return child.type.name;
+          return child ? child.type.name : "";
         })
         .indexOf("CardTitle");
       let content_index = returnChildren
         .map(child => {
-          return child.type.name;
+          return child ? child.type.name : "";
         })
         .indexOf("CardContent");
-      let to_index;
+      var to_index;
       if (title_index === -1) {
         to_index = content_index;
       } else if (content_index === -1) {
@@ -133,9 +133,10 @@ export default class Card extends Component {
     if (this.props.mediaSource !== undefined || this.props.isDark) {
       returnChildren = React.Children.map(returnChildren, child => {
         if (
-          child.type.name === "CardContent" ||
-          child.type.name === "CardTitle" ||
-          child.type.name === "CardAction"
+          child &&
+          (child.type.name === "CardContent" ||
+            child.type.name === "CardTitle" ||
+            child.type.name === "CardAction")
         ) {
           return React.cloneElement(child, {
             isDark: true
